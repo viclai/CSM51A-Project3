@@ -1,0 +1,158 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% University/School Laboratory Report
+% LaTeX Template
+% Version 3.1 (25/3/14)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Linux and Unix Users Group at Virginia Tech Wiki 
+% (https://vtluug.org/wiki/Example_LaTeX_chem_lab_report)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------
+%	PACKAGES AND DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------
+
+\documentclass{article}
+
+%\usepackage{siunitx}
+	% Provides the \SI{}{} and \si{} command for typesetting SI units
+\usepackage{graphicx} 
+	% Required for the inclusion of images
+\graphicspath{ {LaTeX_Images/} }
+	% Directory where images are imported from
+\usepackage{amsmath} 
+	% Required for some math elements 
+
+\setlength\parindent{0pt} 
+	% Removes all indentation from paragraphs
+
+%\renewcommand{\labelenumi}{\alph{enumi}.} 
+	% Make numbering in the enumerate environment by letter rather than 
+	% number (e.g. %section 6)
+
+%\usepackage{times} 
+	% Uncomment to use the Times New Roman font
+
+\renewcommand{\vec}[1]{\mathbf{#1}}
+%\renewcommand{\textfraction}{0.05}
+
+\usepackage{subfigure}
+	% Place figures side by side
+
+%----------------------------------------------------------------------------
+%	ABSTRACT
+%----------------------------------------------------------------------------
+
+\begin{document}
+
+\begin{abstract}
+This is the brief high-level description of the project in plain English text.
+\end{abstract}
+
+%----------------------------------------------------------------------------
+%	FUNCTIONS OF THE CIRCUIT
+%----------------------------------------------------------------------------
+
+\section{Switching Functions of the Circuit}
+This section should present both minimal switching expressions in OR-AND form 
+and the schematic of the circuit composed of logic gates and flip-flops.
+
+%----------------------------------------------------------------------------
+%	VERILOG CODE
+%----------------------------------------------------------------------------
+
+\section{Verilog Code}
+The following is the implementation of our module in code, pasted from a 
+Verilog file. Please also refer to \textit{csm51a\_proj3.v} in the zipped 
+file.\\
+
+\begin{verbatim}
+Place implementation of code here.
+\end{verbatim}
+
+%----------------------------------------------------------------------------
+%	SIMULATION RESULT
+%----------------------------------------------------------------------------
+
+\section{Simulation Result}
+In your simulation, you should show the following 3 sequences: (1) D, N, D;
+(2) N, N, N, N, and (3) D, Reset. Please clearly write down the necessary 
+information on the waveform diagram so that one of your colleagues who does 
+not know anything about your project could understand the behavior of the 
+system you are trying to implement.\\
+
+The following test bench code was used to generate that simulation result.
+
+\begin{verbatim}
+Place test bench code here.
+\end{verbatim}
+
+To observe the output values of each input combination, we changed the input 
+every 10 nanoseconds.
+
+%----------------------------------------------------------------------------
+%	DESIGN REVIEW
+%----------------------------------------------------------------------------
+
+\section{Design Review}
+This section includes a summary of your experiences throughout the project. 
+It should be no more than TWO pages and may include such topics as what you 
+have learned, problem(s) encountered during the implementation and the 
+workarounds you came up with, the approach you used, the most important aspects 
+of the project for you, where you spent most of the your time and suggestions 
+you want to make. In particular, you may include here the new design scheme 
+you proposed for the \textit{iKonPlus} controller and alternative 
+implementation with MUXes for extra points.
+
+%----------------------------------------------------------------------------
+%	TEAM MEMBER CONTRIBUTIONS
+%----------------------------------------------------------------------------
+
+\section{Team Member Contributions}
+In this section, a detailed description on each team member's responsibility 
+and contribution should be presented clearly, including an estimate of 
+percentage of efforts on the project and a summary list of each member in the 
+project.
+
+%----------------------------------------------------------------------------
+%	APPENDIX
+%----------------------------------------------------------------------------
+
+\section{Appendix}
+This part must show the complete worksheet during the paper-and-paper design.
+
+\subsection{Inputs, Outputs, and States of the System}
+Draw the Box!
+
+
+\subsection{Encoding Schemes}
+Give the encoding schemes of the inputs, outputs, and states here.
+
+
+\subsection{State Diagram and State Table}
+Give the state diagram and state table here.
+
+
+\subsection{Minimization Procedure}
+Show the minimization procedure for state and output variables by means of the 
+K-map.
+
+
+\subsection{Final Minimal Expressions}
+Show the final minimal expressions of the logic functions in forms of OR-AND 
+switching expressions and the final schematic of the circuit.
+
+
+\subsection{Paper-and-Pencil Design}
+The following screenshots show our preliminary work done using paper and 
+pencil.
+
+%----------------------------------------------------------------------------
+\end{document}

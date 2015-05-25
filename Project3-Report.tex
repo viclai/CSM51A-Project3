@@ -129,7 +129,52 @@ project.
 This part must show the complete worksheet during the paper-and-paper design.
 
 \subsection{Inputs, Outputs, and States of the System}
-Draw the Box!
+Professor Yutao He always reminds his students to draw "The Box" when starting 
+to design and analyze a digital system. Remembering that piece of advice, we 
+started our design by drawing it to get a sense of the inputs and outputs. 
+Those inputs and outputs are depicted in Figure~\ref{fig:box}. \\
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{Box}
+\caption{"The Box!"}
+\label{fig:box}
+\end{figure}
+
+The following tables show the inputs, outputs, and states of the \textit{iKon} 
+Controller.
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|c|c|c|c|l}
+\cline{1-4}
+\multicolumn{2}{|c|}{ \textbf{Inputs} } & 
+\multicolumn{2}{c|}{ \textbf{Outputs} } &  \\ \cline{1-4}
+  \textbf{Variables} & \textbf{Values} & \textbf{Variables} & \textbf{Values} &
+  \\ \cline{1-4}
+  Reset & \{True (T), False (F)\} & Release Gum (RG) & \{T, F\} &  \\
+  Coin & \{ Empty (E), Nickel (N), Dime (D) \} & Return Nickel (RN) & \{T, F\} 
+  &  \\ \cline{1-4}
+\end{tabular}
+\caption{The Inputs and Outputs of the \textit{iKon} Controller}
+\end{center}
+\end{table}
+
+\clearpage
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+\textbf{State} & \textbf{Description}                  \\ \hline
+Init           & Initial State                         \\
+5c             & Amount of deposited coins is 5 cents  \\
+10c            & Amount of deposited coins is 10 cents \\
+15c            & Amount of deposited coins is 15 cents \\ \hline
+\end{tabular}
+\caption{The States of the \textit{iKon} Controller}
+\end{center}
+\end{table}
 
 
 \subsection{Encoding Schemes}

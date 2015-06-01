@@ -61,8 +61,66 @@ This is the brief high-level description of the project in plain English text.
 %----------------------------------------------------------------------------
 
 \section{Switching Functions of the Circuit}
-This section should present both minimal switching expressions in OR-AND form 
-and the schematic of the circuit composed of logic gates and flip-flops.
+This section shows minimal switching expressions in OR-AND form of the 
+outputs and JK flip-flops. The corresponding schematics accompany those
+expressions below.\\
+
+\begin{equation*}
+z_1 = (s_1)(s'_0 + x_1)(x_0)
+\end{equation*}
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.3]{z1}
+\end{figure}
+
+\begin{equation*}
+z_1 = (s_1)(x_1)(s'_0)
+\end{equation*}
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.3]{z0}
+\end{figure}
+
+\clearpage
+
+\begin{equation*}
+J_1 = (x_0)(s_0 + x_1)
+\end{equation*}
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.3]{J1}
+\end{figure}
+
+\begin{equation*}
+K_1 = (x_0)(s'_0 + x_1)
+\end{equation*}
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.3]{K1}
+\end{figure}
+
+\clearpage
+
+\begin{equation*}
+J_0 = (s'_1)(x_0)
+\end{equation*}
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.3]{J0}
+\end{figure}
+
+\begin{equation*}
+K_0 = (x_0)(s_1 + x_1)
+\end{equation*}
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.3]{K0}
+\end{figure}
+
+\textbf{We implemented negated inputs (of $s_0$ and $s_1$) as can be seen in
+the overall network in the Appendix.}
+The same expressions can also be found in the Appendix. The Appendix gives a 
+step-by-step procedure to obtain those expressions.
 
 %----------------------------------------------------------------------------
 %	VERILOG CODE
@@ -134,6 +192,8 @@ to design and analyze a digital system. Remembering that piece of advice, we
 started our design by drawing it to get a sense of the inputs and outputs. 
 Those inputs and outputs are depicted in Figure~\ref{fig:box}. \\
 
+\clearpage
+
 \begin{figure}[h!]
 \centering
 \includegraphics[scale=0.7]{Box}
@@ -160,7 +220,7 @@ Controller.
 \end{center}
 \end{table}
 
-\clearpage
+%\clearpage
 
 \begin{table}[h]
 \begin{center}
@@ -178,16 +238,113 @@ Init           & Initial State                         \\
 
 
 \subsection{Encoding Schemes}
-Give the encoding schemes of the inputs, outputs, and states here.
+Thee following tables show the encoding schemes that we used to design the 
+sequential network.
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{cc|cc}
+\textbf{Coin} & $x_1$$x_0$ & \textbf{Reset}       & r                    \\ \hline
+Empty         & 00   & False                & 0                    \\
+Nickel        & 01   & True                 & 1                    \\
+Dime          & 11   & \multicolumn{1}{l}{} & \multicolumn{1}{l}{}
+\end{tabular}
+\caption{The Encoding Scheme of the Inputs}
+\end{center}
+\end{table}
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{cc|cc}
+\textbf{RG} & $z_1$ & \textbf{RN} & $z_0$ \\ \hline
+False       & 0  & False       & 0  \\
+True        & 1  & True        & 1 
+\end{tabular}
+\caption{The Encoding Scheme of the Outputs}
+\end{center}
+\end{table}
+
+\clearpage
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{c|c}
+\textbf{State} & $s1$$s0$ \\ \hline
+Init           & 11   \\
+5c             & 01   \\
+10c            & 11   \\
+15c            & 10  
+\end{tabular}
+\caption{The Encoding Scheme of the States}
+\end{center}
+\end{table}
 
 
 \subsection{State Diagram and State Table}
-Give the state diagram and state table here.
+The following is the state diagram.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.5]{State_Diagram}
+\caption{The State Diagram of the Controller}
+\end{figure}
+
+The following is the state table obtained from the state diagram.
+\clearpage
+
+\begin{table}[h]\
+\begin{center}
+\begin{tabular}{c|ccc}
+PS  & \multicolumn{3}{c}{ 
+  \begin{tabular}[c]{@{}c@{}} Input \\ $x_1$$x_0$ 
+  \end{tabular} 
+} \\ \hline
+s(t) = $s_1$$s_0$  & 00              & 01               & 11    \\ \hline
+00                 & 00, 00          & 01, 00           & 11, 00\\
+01                 & 01, 00          & 11, 00           & 10, 00\\
+11                 & 11, 00          & 10, 00           & 00, 10\\
+10                 & 10, 00          & 00, 10           & 00, 11\\ \hline
+\multicolumn{1}{l|}{} & \multicolumn{3}{c}{
+  \begin{tabular}[c]{@{}c@{}} NS, Output\\ s(t + 1), z = $z_1$$z_0$
+  \end{tabular}
+}
+\end{tabular}
+\caption{The State Table of the Controller}
+\end{center}
+\end{table}
 
 
 \subsection{Minimization Procedure}
-Show the minimization procedure for state and output variables by means of the 
-K-map.
+We used K-maps to find the minimal product of sums. The red circles in the 
+K-maps shown below indicate the implicates used in the minimal expressions.\\
+
+\begin{table}[h!]
+\begin{tabular}{ c c }
+\centering
+\includegraphics[scale=0.6]{z1-KMap} &
+\includegraphics[scale=0.6]{z0-KMap} \\
+\end{tabular}
+\end{table}
+
+\pagebreak
+
+\begin{table}[h!]
+\begin{tabular}{ c c }
+\centering
+\includegraphics[scale=0.6]{J1-KMap} &
+\includegraphics[scale=0.6]{K1-KMap} \\
+\end{tabular}
+\end{table}
+
+\begin{table}[h!]
+\begin{tabular}{ c c }
+\centering
+\includegraphics[scale=0.6]{J0-KMap} &
+\includegraphics[scale=0.6]{K0-KMap} \\
+\end{tabular}
+\end{table}
+
+\pagebreak
 
 
 \subsection{Final Minimal Expressions}

@@ -53,7 +53,13 @@
 \begin{document}
 
 \begin{abstract}
-This is the brief high-level description of the project in plain English text.
+Throughout the latter half of this course on digital systems, we have learned 
+to design sequential systems. In this project, we built a sequential system of 
+a vending machine controller by going through the process of designing the 
+system from the high-level specification to the final implementation. We 
+defined the encoding schemes of the input and output, created the state 
+diagram and state table, used K-maps to methodically obtain minimal OR-AND 
+switching expressions, and implemnted and simulated the gate network on Vivado.
 \end{abstract}
 
 %----------------------------------------------------------------------------
@@ -73,15 +79,15 @@ z_1 = (s_1)(s'_0 + x_1)(x_0)
 \includegraphics[scale=0.3]{z1}
 \end{figure}
 
+\clearpage
+
 \begin{equation*}
-z_1 = (s_1)(x_1)(s'_0)
+z_0 = (s_1)(x_1)(s'_0)
 \end{equation*}
 \begin{figure}[h!]
 \centering
 \includegraphics[scale=0.3]{z0}
 \end{figure}
-
-\clearpage
 
 \begin{equation*}
 J_1 = (x_0)(s_0 + x_1)
@@ -91,6 +97,8 @@ J_1 = (x_0)(s_0 + x_1)
 \includegraphics[scale=0.3]{J1}
 \end{figure}
 
+\clearpage
+
 \begin{equation*}
 K_1 = (x_0)(s'_0 + x_1)
 \end{equation*}
@@ -98,8 +106,6 @@ K_1 = (x_0)(s'_0 + x_1)
 \centering
 \includegraphics[scale=0.3]{K1}
 \end{figure}
-
-\clearpage
 
 \begin{equation*}
 J_0 = (s'_1)(x_0)
@@ -109,6 +115,8 @@ J_0 = (s'_1)(x_0)
 \includegraphics[scale=0.3]{J0}
 \end{figure}
 
+\clearpage
+
 \begin{equation*}
 K_0 = (x_0)(s_1 + x_1)
 \end{equation*}
@@ -117,8 +125,8 @@ K_0 = (x_0)(s_1 + x_1)
 \includegraphics[scale=0.3]{K0}
 \end{figure}
 
-\textbf{We implemented negated inputs (of $s_0$ and $s_1$) as can be seen in
-the overall network in the Appendix.}
+\textbf{We implemented negated inputs (of $s_0$ and $s_1$) using NOT gates as 
+can be seen in the overall network in the Appendix.}
 The same expressions can also be found in the Appendix. The Appendix gives a 
 step-by-step procedure to obtain those expressions.
 
@@ -127,12 +135,19 @@ step-by-step procedure to obtain those expressions.
 %----------------------------------------------------------------------------
 
 \section{Verilog Code}
-The following is the implementation of our module in code, pasted from a 
+The following is the implementation of our circuit in code, pasted from a 
 Verilog file. Please also refer to \textit{csm51a\_proj3.v} in the zipped 
 file.\\
 
 \begin{verbatim}
-Place implementation of code here.
+Place implementation of circuit here.
+\end{verbatim}
+
+The Verilog code that follows shows our implementation of the JK flop-flop. 
+Please also refer to \textit{jkff.v} in the zipped file.\\
+
+\begin{verbatim}
+Place implementation of JK flip-flop here.
 \end{verbatim}
 
 %----------------------------------------------------------------------------
@@ -152,32 +167,59 @@ The following test bench code was used to generate that simulation result.
 Place test bench code here.
 \end{verbatim}
 
-To observe the output values of each input combination, we changed the input 
-every 10 nanoseconds.
+Explain the test bench code here (i.e. every tick of the clock, there is a new 
+input).
 
 %----------------------------------------------------------------------------
 %	DESIGN REVIEW
 %----------------------------------------------------------------------------
 
 \section{Design Review}
-This section includes a summary of your experiences throughout the project. 
-It should be no more than TWO pages and may include such topics as what you 
-have learned, problem(s) encountered during the implementation and the 
-workarounds you came up with, the approach you used, the most important aspects 
-of the project for you, where you spent most of the your time and suggestions 
-you want to make. In particular, you may include here the new design scheme 
-you proposed for the \textit{iKonPlus} controller and alternative 
-implementation with MUXes for extra points.
+Throughout the process of completing this project, we learned many things 
+ranging from applying concepts that we learned in class to getting more 
+comfortable using new software.\\
+\\
+In this project, we learned how to apply the concepts of sequential systems 
+which we learned in class to a real-world application. In particular, we 
+learned that a vending machine functions as a sequential system in that it 
+keeps track of the coins that are inserted and appropriately releases the item 
+when enough coins have been put in.\\
+\\
+Having practiced the techinques often in class, we found that getting the 
+minimal switching expressions was nearly trivial to do.\\
+\\
+Implementing our design in Vivado turned out to be very difficult, and most of 
+our time was spent getting the simulation results to be correct as a result. 
+We think that the instructor and/or teaching assistants could have spent a bit 
+more time discussing the Verilog syntax of sequential systems in general.\\
+\\
+If we had more time, we would have attempted to do the extra credit and 
+implemented another design using multiplexers. If we did not have any trouble 
+implementing our design in Vivado, then we could have possibly worked on 
+designing a controller that also accepts quarters.
 
 %----------------------------------------------------------------------------
 %	TEAM MEMBER CONTRIBUTIONS
 %----------------------------------------------------------------------------
 
 \section{Team Member Contributions}
-In this section, a detailed description on each team member's responsibility 
-and contribution should be presented clearly, including an estimate of 
-percentage of efforts on the project and a summary list of each member in the 
-project.
+Each team member assumed a relatively equal share of the workload of this 
+project.\\
+\\
+Dennis mainly worked on the technical aspect of this project. He spend most of 
+his time trying to correctly implement our design in Verilog. Part of that time 
+involved going to office hours to verify that the implemented code is flawless. 
+He also checked Victor's initial design done on paper and was able to catch a 
+few mistakes. \\
+\\
+Victor mostly worked on the compilation of the report using \LaTeX. He created 
+the individual gate networks as well as the final network of gates and 
+flip-flops using Paint. The pencil-and-paper design in Section 6.6 shows his 
+work which was later verified by Dennis. He also wrote out most of the text of 
+the report.\\
+\\
+Overall, each member of the team contributed to roughly 50\% to the completion 
+of the project.
 
 %----------------------------------------------------------------------------
 %	APPENDIX
@@ -191,8 +233,6 @@ Professor Yutao He always reminds his students to draw "The Box" when starting
 to design and analyze a digital system. Remembering that piece of advice, we 
 started our design by drawing it to get a sense of the inputs and outputs. 
 Those inputs and outputs are depicted in Figure~\ref{fig:box}. \\
-
-\clearpage
 
 \begin{figure}[h!]
 \centering
@@ -220,7 +260,7 @@ Controller.
 \end{center}
 \end{table}
 
-%\clearpage
+\clearpage
 
 \begin{table}[h]
 \begin{center}
@@ -244,7 +284,7 @@ sequential network.
 \begin{table}[h]
 \begin{center}
 \begin{tabular}{cc|cc}
-\textbf{Coin} & $x_1$$x_0$ & \textbf{Reset}       & r                    \\ \hline
+\textbf{Coin} & $x_1$$x_0$ & \textbf{Reset}       & r                \\ \hline
 Empty         & 00   & False                & 0                    \\
 Nickel        & 01   & True                 & 1                    \\
 Dime          & 11   & \multicolumn{1}{l}{} & \multicolumn{1}{l}{}
@@ -290,6 +330,7 @@ The following is the state diagram.
 \end{figure}
 
 The following is the state table obtained from the state diagram.
+
 \clearpage
 
 \begin{table}[h]\
@@ -375,10 +416,10 @@ J_0 = (s'_1)(x_0)
 K_0 = (x_0)(s_1 + x_1)
 \end{equation*}
 
-\clearpage
-
 Combining each individual subnetwork of logic gates, we get the following 
 circuit design.
+
+\clearpage
 
 \begin{figure}[h!]
 \centering
@@ -396,7 +437,18 @@ circuit design.
 
 \subsection{Paper-and-Pencil Design}
 The following screenshots show our preliminary work done using paper and 
-pencil.
+pencil.\\
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.5]{Worksheet(1)}
+\caption{First page of our work}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.5]{Worksheet(2)}
+\caption{Second page of our work}
+\end{figure}
 
 %----------------------------------------------------------------------------
 \end{document}

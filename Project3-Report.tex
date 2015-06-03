@@ -46,6 +46,8 @@
 \usepackage{subfigure}
 	% Place figures side by side
 
+\usepackage{textcomp}
+
 %----------------------------------------------------------------------------
 %	ABSTRACT
 %----------------------------------------------------------------------------
@@ -166,16 +168,7 @@ file.
 module csm51a_proj3(x1, x0, clock, clear, z1,z0,pSout0, pSout1);
     input x1,x0,clock,clear;
     output z1,z0,pSout0, pSout1;
-    
-    /*parameter[1:0] init = 2'b00;
-    parameter[1:0] fiveC = 2'b01;
-    parameter[1:0] tenC = 2'b11;
-    parameter[1:0] fifteenC = 2'b10;
-    
-    parameter[1:0] EMPTY = 2'b00;
-    parameter[1:0] NICKEL = 2'b01;
-    parameter[1:0] DIME = 2'b11;*/
-    
+      
     wire[1:0] pS;
     wire[1:0] jk0_in;
     //reg jk00_in;
@@ -193,20 +186,7 @@ module csm51a_proj3(x1, x0, clock, clear, z1,z0,pSout0, pSout1);
     assign z1 = x0 & pS[1] & (~pS[0] | x1);
     
     assign pSout0 = pS[0];
-    assign pSout1 = pS[1];
-    
-    /*always @(posedge clear or posedge clock)
-    begin
-        case (pS)
-            init: begin
-                case ({x1,x0})
-                    EMPTY: 
-                endcase
-            end
-        endcase
-        
-    end*/
-    
+    assign pSout1 = pS[1];    
 endmodule
 \end{verbatim}
 
@@ -277,13 +257,63 @@ endmodule
 %----------------------------------------------------------------------------
 
 \section{Simulation Result}
-In your simulation, you should show the following 3 sequences: (1) D, N, D;
-(2) N, N, N, N, and (3) D, Reset. Please clearly write down the necessary 
-information on the waveform diagram so that one of your colleagues who does 
-not know anything about your project could understand the behavior of the 
-system you are trying to implement.\\
+We simulated three sequences: (1) D, N, D; (2) N, N, N, N, and (3) D, Reset.\\
+\\
+Figure~\ref{fig:dnd} shows the simulation of the sequence of D, N, D. Going 
+from left to right, we see that the input \textit{clear} for the two JK 
+flip-flops are set, causing the flip flops to store 0 (indicated by 
+\textit{psOut0} and \textit{psOut1}). In addition, the moment that 
+\textit{clear} is 1, the flip-flops store 0 regardless of the clock because 
+that input is asynchronous. When the dime comes in as input (when $x_1=1$ and 
+$x_0=1$), on the positive edge of the clock the flip-flops' state changes to 
+11, which represents the state for 10\textcent. Then, a nickel is input (when 
+$x_1=0$ and $x_0=1$), and the state changes to 10, which represents the state 
+for 15\textcent. Finally, when a dime is inserted as input, the state changes to 
+00 (0 cents or initial state) and $z_1=1$ and $z_0=1$ on the positive edge of 
+the clock (because it is synchronous), which represents the output for 
+releasing gum and releasing a nickel as change since the gum is 20\textcent.
 
-The following test bench code was used to generate that simulation result.
+\clearpage
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.4]{DND}
+\caption{The full screen result of the simulation for D, N, D in Vivado}
+\label{fig:dnd}
+\end{figure}
+
+Figure~\ref{fig:nnnn} shows ths simulation of the sequence of four nickels. 
+Similarly, we set the \textit{clear} input in order to set the two flip-flops 
+to 0. Four nickels are inserted as input, each changing the state of the 
+flip-flops.  When the fourth nickel is inserted, $z_1$ becomes 1 and $z_0=0$ 
+because the gum is released and a nickel is not returned as expected since 
+exactly 20\textcent was taken and the gum costs 20\textcent. 
+
+\clearpage
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.4]{NNNN}
+\caption{The full screen result of the simulation for N, N, N, N in Vivado}
+\label{fig:nnnn}
+\end{figure}
+
+In Figure~\ref{fig:d_reset}, we show the sequence of D, Reset in another 
+simulation. We set the input \textit{clear} as usual before inserting a dime as 
+input and then setting \textit{clear} to siginify a reset. As with the first 
+\textit{clear} input, the \textit{clear} input asychronously and immediately 
+sets the flip-flops to 00.
+
+\clearpage
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.4]{D_Reset}
+\caption{The full screen result of the simulation for D, Reset in Vivado}
+\label{fig:d_reset}
+\end{figure}
+
+The following test bench code was used to generate those simulation results.
 
 \begin{verbatim}
 `timescale 1ns / 1ps
@@ -328,9 +358,6 @@ module Top;
 endmodule
 
 \end{verbatim}
-
-Explain the test bench code here (i.e. every tick of the clock, there is a new 
-input).
 
 %----------------------------------------------------------------------------
 %	DESIGN REVIEW
@@ -430,9 +457,9 @@ Controller.
 \hline
 \textbf{State} & \textbf{Description}                  \\ \hline
 Init           & Initial State                         \\
-5c             & Amount of deposited coins is 5 cents  \\
-10c            & Amount of deposited coins is 10 cents \\
-15c            & Amount of deposited coins is 15 cents \\ \hline
+5c             & Amount of deposited coins is 5\textcent  \\
+10c            & Amount of deposited coins is 10\textcent \\
+15c            & Amount of deposited coins is 15\textcent \\ \hline
 \end{tabular}
 \caption{The States of the \textit{iKon} Controller}
 \end{center}

@@ -137,17 +137,139 @@ step-by-step procedure to obtain those expressions.
 \section{Verilog Code}
 The following is the implementation of our circuit in code, pasted from a 
 Verilog file. Please also refer to \textit{csm51a\_proj3.v} in the zipped 
-file.\\
+file.
 
 \begin{verbatim}
-Place implementation of circuit here.
+`timescale 1ns / 1ps
+/////////////////////////////////////////////////////////////////////////////
+// Company: UCLA Henry Samueli School of Engineering and Applied Science
+// Engineers: Victor Lai and Dennis Gahm
+// Student IDs: 404274720 and 704016107
+// 
+// Create Date: 05/27/2015 08:31:53 PM
+// Design Name: 
+// Module Name: csm51a_proj3
+// Project Name: Verilog Lab #3
+// Target Devices: 
+// Tool Versions: 
+// Description: 
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Additional Comments:
+// 
+/////////////////////////////////////////////////////////////////////////////
+
+
+module csm51a_proj3(x1, x0, clock, clear, z1,z0,pSout0, pSout1);
+    input x1,x0,clock,clear;
+    output z1,z0,pSout0, pSout1;
+    
+    /*parameter[1:0] init = 2'b00;
+    parameter[1:0] fiveC = 2'b01;
+    parameter[1:0] tenC = 2'b11;
+    parameter[1:0] fifteenC = 2'b10;
+    
+    parameter[1:0] EMPTY = 2'b00;
+    parameter[1:0] NICKEL = 2'b01;
+    parameter[1:0] DIME = 2'b11;*/
+    
+    wire[1:0] pS;
+    wire[1:0] jk0_in;
+    //reg jk00_in;
+    wire[1:0] jk1_in;
+    jkff jk0(pS[0], jk0_in, clock, clear);
+    jkff jk1(pS[1], jk1_in, clock, clear);
+    
+    //combinational logic
+    assign jk0_in[1] = x0 & ~pS[1];
+    assign jk0_in[0] = x0 & (pS[1] | x1);
+    //assign jk0_in2 = {x0 & ~pS[1], x0 & (pS[1] | x1)};
+    assign jk1_in[1] = x0 & (pS[0] | x1);
+    assign jk1_in[0] = x0 & (x1 | ~pS[0]);
+    assign z0 = pS[1] & ~pS[0] & x1;
+    assign z1 = x0 & pS[1] & (~pS[0] | x1);
+    
+    assign pSout0 = pS[0];
+    assign pSout1 = pS[1];
+    
+    /*always @(posedge clear or posedge clock)
+    begin
+        case (pS)
+            init: begin
+                case ({x1,x0})
+                    EMPTY: 
+                endcase
+            end
+        endcase
+        
+    end*/
+    
+endmodule
 \end{verbatim}
 
 The Verilog code that follows shows our implementation of the JK flop-flop. 
 Please also refer to \textit{jkff.v} in the zipped file.\\
 
 \begin{verbatim}
-Place implementation of JK flip-flop here.
+`timescale 1ns / 1ps
+/////////////////////////////////////////////////////////////////////////////
+// Company: UCLA Henry Samueli School of Engineering and Applied Science
+// Engineers: Victor Lai and Dennis Gahm
+// Student IDs: 404274720 and 704016107 
+// 
+// Create Date: 05/28/2015 12:29:46 PM
+// Design Name: 
+// Module Name: jkff
+// Project Name: Verilog Lab #3
+// Target Devices: 
+// Tool Versions: 
+// Description: 
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Additional Comments:
+// 
+/////////////////////////////////////////////////////////////////////////////
+
+
+module jkff(data_out, data_in, clock, clear);
+    output data_out;
+    input[1:0] data_in;
+    input clock, clear;
+    reg[1:0] data_reg; //[1] is output/ps, [0] is next state/stored
+    
+    assign data_out = data_reg[0];
+    
+    always @(posedge clear or posedge clock)
+    begin
+        if (clear == 1)
+            data_reg <= 0;
+        else
+            begin
+                //data_out <= data_reg;
+                if (data_reg[0] == 0)
+                    begin
+                        if (data_in[1] == 1)
+                        begin
+                            data_reg[1] = data_reg[0];
+                            data_reg[0] = 1;
+                        end
+                    end
+                else
+                    begin
+                        if (data_in[0] == 1)
+                            data_reg[1] = data_reg[0];
+                            data_reg[0] = 0;
+                    end
+            end 
+    end
+
+endmodule
 \end{verbatim}
 
 %----------------------------------------------------------------------------
@@ -164,7 +286,47 @@ system you are trying to implement.\\
 The following test bench code was used to generate that simulation result.
 
 \begin{verbatim}
-Place test bench code here.
+`timescale 1ns / 1ps
+/////////////////////////////////////////////////////////////////////////////
+// Company: UCLA Henry Samueli School of Engineering and Applied Science
+// Engineers: Victor Lai and Dennis Gahm
+// Student IDs: 404274720 and 704016107
+// 
+// Create Date: 05/28/2015 01:39:02 PM
+// Design Name: 
+// Module Name: csm51a_proj3_tb.v
+// Project Name: Verilog Lab #3
+// Target Devices: 
+// Tool Versions: 
+// Description: 
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Additional Comments:
+// 
+/////////////////////////////////////////////////////////////////////////////
+
+
+module Top;
+    reg x1,x0,clock,clear;
+    wire z1, z0,pSout0,pSout1;
+    csm51a_proj3 p1(x1, x0, clock, clear, z1,z0,pSout0, pSout1);
+    
+    initial begin
+        clock = 0;
+        clear = 0;
+        #15 clear = 1; x1=0;x0=0;
+        #20 clear = 0;
+        #10 x1=0;x0=1;
+    end
+    
+    always begin
+        #10 clock = ~clock;
+    end
+endmodule
+
 \end{verbatim}
 
 Explain the test bench code here (i.e. every tick of the clock, there is a new 
@@ -234,6 +396,8 @@ to design and analyze a digital system. Remembering that piece of advice, we
 started our design by drawing it to get a sense of the inputs and outputs. 
 Those inputs and outputs are depicted in Figure~\ref{fig:box}. \\
 
+\clearpage
+
 \begin{figure}[h!]
 \centering
 \includegraphics[scale=0.7]{Box}
@@ -260,8 +424,6 @@ Controller.
 \end{center}
 \end{table}
 
-\clearpage
-
 \begin{table}[h]
 \begin{center}
 \begin{tabular}{|c|c|}
@@ -280,6 +442,8 @@ Init           & Initial State                         \\
 \subsection{Encoding Schemes}
 Thee following tables show the encoding schemes that we used to design the 
 sequential network.
+
+\clearpage
 
 \begin{table}[h]
 \begin{center}
@@ -304,8 +468,6 @@ True        & 1  & True        & 1
 \end{center}
 \end{table}
 
-\clearpage
-
 \begin{table}[h]
 \begin{center}
 \begin{tabular}{c|c}
@@ -323,6 +485,8 @@ Init           & 11   \\
 \subsection{State Diagram and State Table}
 The following is the state diagram.
 
+\clearpage
+
 \begin{figure}[h!]
 \centering
 \includegraphics[scale=0.5]{State_Diagram}
@@ -330,8 +494,6 @@ The following is the state diagram.
 \end{figure}
 
 The following is the state table obtained from the state diagram.
-
-\clearpage
 
 \begin{table}[h]\
 \begin{center}

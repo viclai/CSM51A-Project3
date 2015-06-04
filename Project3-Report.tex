@@ -168,7 +168,10 @@ file.
 module csm51a_proj3(x1, x0, clock, clear, z1,z0,pSout0, pSout1);
     input x1,x0,clock,clear;
     output z1,z0,pSout0, pSout1;
-      
+    //output pSout0, pSout1;    
+    reg z1;
+    reg z0;
+	
     wire[1:0] pS;
     wire[1:0] jk0_in;
     //reg jk00_in;
@@ -181,13 +184,28 @@ module csm51a_proj3(x1, x0, clock, clear, z1,z0,pSout0, pSout1);
     assign jk0_in[0] = x0 & (pS[1] | x1);
     //assign jk0_in2 = {x0 & ~pS[1], x0 & (pS[1] | x1)};
     assign jk1_in[1] = x0 & (pS[0] | x1);
+    //assign jk1_in[1] = x1;
     assign jk1_in[0] = x0 & (x1 | ~pS[0]);
-    assign z0 = pS[1] & ~pS[0] & x1;
-    assign z1 = x0 & pS[1] & (~pS[0] | x1);
+    //assign z0 = pS[1] & ~pS[0] & x1;
+    //assign z1 = x0 & pS[1] & (~pS[0] | x1);
+    always @(posedge clock)
+    begin
+        if (clear != 1) begin
+            z0 = pS[1] & ~pS[0] & x1;
+            z1 = x0 & pS[1] & (~pS[0] | x1);
+        end
+    end
+    always @(clear) begin
+        if (clear == 1 & (pS[0] == 0 | pS[0] == 1)) begin
+            z0=1;z1=0;
+        end
+    end
     
     assign pSout0 = pS[0];
-    assign pSout1 = pS[1];    
+    assign pSout1 = pS[1];
 endmodule
+
+
 \end{verbatim}
 
 The Verilog code that follows shows our implementation of the JK flop-flop. 
@@ -271,9 +289,10 @@ endmodule
 %----------------------------------------------------------------------------
 
 \section{Simulation Result}
-We simulated three sequences: (1) D, N, D; (2) N, N, N, N, and (3) D, Reset.\\
+We simulated three sequences: (1) \{D, N, D\}, (2) \{N, N, N, N\}, and (3) 
+\{D, Reset\}.\\
 \\
-Figure~\ref{fig:dnd} shows the simulation of the sequence of D, N, D. Going 
+Figure~\ref{fig:dnd} shows the simulation of the sequence of \{D, N, D\}. Going 
 from left to right, we see that the input \textit{clear} for the two JK 
 flip-flops are set, causing the flip flops to store 0 (indicated by 
 \textit{psOut0} and \textit{psOut1}). In addition, the moment that 
@@ -287,12 +306,10 @@ for 15\textcent. Finally, when a dime is inserted as input, the state changes to
 the clock (because it is synchronous), which represents the output for 
 releasing gum and releasing a nickel as change since the gum is 20\textcent.
 
-\clearpage
-
 \begin{figure}[h!]
 \centering
 \includegraphics[scale=0.4]{DND}
-\caption{The full screen result of the simulation for D, N, D in Vivado}
+\caption{The full screen result of the simulation for \{D, N, D\} in Vivado}
 \label{fig:dnd}
 \end{figure}
 
@@ -308,22 +325,23 @@ exactly 20\textcent was taken and the gum costs 20\textcent.
 \begin{figure}[h!]
 \centering
 \includegraphics[scale=0.4]{NNNN}
-\caption{The full screen result of the simulation for N, N, N, N in Vivado}
+\caption{The full screen result of the simulation for \{N, N, N, N\} in Vivado}
 \label{fig:nnnn}
 \end{figure}
 
-In Figure~\ref{fig:d_reset}, we show the sequence of D, Reset in another 
+In Figure~\ref{fig:d_reset}, we show the sequence of \{D, Reset\} in another 
 simulation. We set the input \textit{clear} as usual before inserting a dime as 
 input and then setting \textit{clear} to siginify a reset. As with the first 
 \textit{clear} input, the \textit{clear} input asychronously and immediately 
-sets the flip-flops to 00.
+sets the flip-flops to 01. Since a dime is inserted before the machine is 
+reset, it must return change, so $z_0=0$.
 
 \clearpage
 
 \begin{figure}[h!]
 \centering
 \includegraphics[scale=0.4]{D_Reset}
-\caption{The full screen result of the simulation for D, Reset in Vivado}
+\caption{The full screen result of the simulation for \{D, Reset\} in Vivado}
 \label{fig:d_reset}
 \end{figure}
 

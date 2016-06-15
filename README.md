@@ -1,6 +1,6 @@
 # Synopsis 
 
-iKon is a course-related project assigned in a digital systems <a href="http://www.registrar.ucla.edu/schedule/subdet.aspx?srs=187154200&term=15S&session=" target="_blank" title="COM SCI M51A">class</a> at UCLA. iKon, a vending machine controller, is built as a finite state machine using Verilog. 
+iKon is a course-related project assigned in a digital systems <a href="http://www.bruinwalk.com/professors/yutao-he/com-sci-m51a/" target="_blank" title="COM SCI M51A">class</a> at UCLA. iKon, a vending machine controller, is built as a finite state machine using Verilog. 
 
 # Development 
 
